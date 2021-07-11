@@ -38,7 +38,7 @@ export default function todoReducer(state = initialState, action) {
                     if (todo.id !== action.payload) {
                         return todo
                     }
-                    //todoが変化した時
+                    //todoのcompletedを反転させる
                     return {
                         ...todo,
                         completed: !todo.completed
