@@ -12,7 +12,7 @@ function nextTodoId(todos) {
 }
 
 // Use the initialState as a default value
-export default function appReducer(state = initialState, action) {
+export default function todoReducer(state = initialState, action) {
     // The reducer normally looks at the action type field to decide what happens
     switch (action.type) {
         case 'todos/todoAdded': {
