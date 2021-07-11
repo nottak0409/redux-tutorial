@@ -31,7 +31,6 @@ store.dispatch({
 unsubscribe()
 
 // Dispatch one more action to see what happens
-
 store.dispatch({ type: 'todos/todoAdded', payload: 'Try creating a store' })
 
 // Omit existing React rendering logic
