@@ -34,6 +34,32 @@ export default function appReducer(state = initialState, action) {
                 ]
             }
         }
+        case 'todos/todoToggled': {
+            return {
+                ...state,
+                todos: state.todos.map(todo => {
+                    //idが存在しない値の時
+                    if (todo.id !== action.payload) {
+                        return todo
+                    }
+                    //todoが変化した時
+                    return {
+                        ...todo,
+                        completed: !todo.completed
+                    }
+                })
+            }
+        }
+        case 'filters/statusFilterChanged': {
+            return {
+                ...state,
+                //statusフィルターを変更する
+                filters: {
+                    ...state.filters,
+                    status: action.payload
+                }
+            }
+        }
         // Do something here based on the different types of actions
         default:
         // If this reducer doesn't recognize the action type, or doesn't
