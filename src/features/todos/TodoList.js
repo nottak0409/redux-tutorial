@@ -5,8 +5,9 @@ import TodoListItem from './TodoListItem'
 const SelectTodos = state => state.todos
 
 const TodoList = () => {
-    const todos = useSelector(selectTodos)
+    const todos = useSelector(SelectTodos)
 
+    console.log(todos);
     const renderedListItems = todos.map(todo => {
         return <TodoListItem key={todo.id} todo={todo} />
     })

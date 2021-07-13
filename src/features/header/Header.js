@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
-const Header () => {
+const Header = () => {
     const [text, setText] = useState('')
     const dispatch = useDispatch()
 
@@ -21,7 +21,7 @@ const Header () => {
             type="text"
             placeholder="何をしますか？"
             autoFocus={true}
-            value{text}
+            value={text}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
         />
