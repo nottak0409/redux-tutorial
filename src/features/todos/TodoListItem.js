@@ -8,17 +8,18 @@ import { availableColors, capitalize } from '../filters/colors'
 const selectTodoById = (state, todoId) => {
     return state.todos.find((todo) => todo.id === todoId)
 }
-const TodoListItem = ({ id, onColorChange, onCompletedChange }) => {
+const TodoListItem = ({ id }) => {
     const todo = useSelector((state) => selectTodoById(state, id))
     const { text, completed, color } = todo
     const dispatch = useDispatch()
 
     const handleCompletedChanged = (e) => {
-        onCompletedChange(e.target.checked)
+        dispatch({ type: 'todos/todoToggled', payload: todo.id})
     }
 
     const handleColorChanged = (e) => {
-        onColorChange(e.target.value)
+        const color = e.target.value
+        dispatch({ type: 'todos/colorSelected', payload: { todoId: todo.id, color } })
     }
 
     const colorOptions = availableColors.map((c) => (
@@ -28,7 +29,7 @@ const TodoListItem = ({ id, onColorChange, onCompletedChange }) => {
     ))
 
     const onDelete = (e) => {
-        dispatch({ type: 'todos/todoDeleted', payload: id })
+        dispatch({ type: 'todos/todoDeleted', payload: todo.id })
     }
 
     return (
