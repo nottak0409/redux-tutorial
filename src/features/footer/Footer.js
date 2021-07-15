@@ -8,8 +8,8 @@ const RemainingTodos = ({ count }) => {
 
     return (
         <div className="todo-count">
-        <h5>Remaining Todos</h5>
-        <strong>{count}</strong> item{suffix} left
+        <h5>Todosリマインダー</h5>
+        <strong>{count}</strong> item{suffix} 残ってます
         </div>
     )
 }
@@ -66,7 +66,7 @@ const ColorFilters = ({ value: colors, onChange }) => {
 
     return (
         <div className="filters colorFilters">
-        <h5>Filter by Color</h5>
+        <h5>色でフィルター</h5>
         <form className="colorSelection">{renderedColors}</form>
         </div>
     )
@@ -85,8 +85,8 @@ const Footer = () => {
         <footer className="footer">
         <div className="actions">
         <h5>Actions</h5>
-        <button className="button">Mark All Completed</button>
-        <button className="button">Clear Completed</button>
+        <button className="button">全てCompletedに</button>
+        <button className="button">Completedをクリア</button>
         </div>
 
         <RemainingTodos count={todosRemaining} />
