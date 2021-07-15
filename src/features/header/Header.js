@@ -8,23 +8,27 @@ const Header = () => {
     const handleChange = e => setText(e.target.value)
 
     const handleKeyDown = e => {
-        const trimmedText = e.target.value.trim()
-
-        if(e.key === 'enter' && trimmedText) {
+        // If the user pressed the Enter key:
+        const trimmedText = text.trim()
+        if (e.which === 13 && trimmedText) {
+            // Dispatch the "todo added" action with this text
             dispatch({ type: 'todos/todoAdded', payload: trimmedText })
-            setText('');
+            // And clear out the text input
+            setText('')
         }
     }
 
     return (
-        <input
-            type="text"
-            placeholder="何をしますか？"
-            autoFocus={true}
-            value={text}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-        />
+        <header className="header">
+            <input
+                type="text"
+                placeholder="何をしますか？"
+                autoFocus={true}
+                value={text}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+            />
+        </header>
     )
 }
 

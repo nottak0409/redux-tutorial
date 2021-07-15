@@ -1,49 +1,60 @@
-const initialState = [];
+const initialState = []
 
 function nextTodoId(todos) {
     const maxId = todos.reduce((maxId, todo) => Math.max(todo.id, maxId), -1)
     return maxId + 1
 }
 
-// Use the initialState as a default value
-export default function todoReducer(state = initialState, action) {
-    // The reducer normally looks at the action type field to decide what happens
+export default function todosReducer(state = initialState, action) {
     switch (action.type) {
         case 'todos/todoAdded': {
-            return {
-                //現在のstateを展開
+            // Can return just the new todos array - no extra object around it
+            return [
                 ...state,
-                todos: [
-                    //今までのstateの後に新しいtodoをpush
-                    ...state.todos,
-                    {
-                        id: nextTodoId(state.todos),
-                        text: action.payload,
-                        completed: false
-                    }
-                ]
-            }
+                {
+                    id: nextTodoId(state),
+                    text: action.payload,
+                    completed: false,
+                },
+            ]
         }
         case 'todos/todoToggled': {
-            return {
-                ...state,
-                todos: state.todos.map(todo => {
-                    //idが存在しない値の時
-                    if (todo.id !== action.payload) {
-                        return todo
-                    }
-                    //todoのcompletedを反転させる
-                    return {
-                        ...todo,
-                        completed: !todo.completed
-                    }
-                })
-            }
+            return state.map((todo) => {
+                if (todo.id !== action.payload) {
+                    return todo
+                }
+
+                return {
+                    ...todo,
+                    completed: !todo.completed,
+                }
+            })
         }
-        // Do something here based on the different types of actions
+        case 'todos/colorSelected': {
+            const { color, todoId } = action.payload
+            return state.map((todo) => {
+                if (todo.id !== todoId) {
+                    return todo
+                }
+
+                return {
+                    ...todo,
+                    color,
+                }
+            })
+        }
+        case 'todos/todoDeleted': {
+            return state.filter((todo) => todo.id !== action.payload)
+        }
+        case 'todos/allCompleted': {
+            return state.map((todo) => {
+                return { ...todo, completed: true }
+            })
+        }
+        case 'todos/completedCleared': {
+            return state.filter((todo) => !todo.completed)
+        }
         default:
-        // If this reducer doesn't recognize the action type, or doesn't
-        // care about this specific action, return the existing state unchanged
         return state
     }
 }
