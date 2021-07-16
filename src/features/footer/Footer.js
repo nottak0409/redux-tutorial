@@ -80,15 +80,21 @@ const Footer = () => {
     })
     const { status, colors } = useSelector(state => state.filters)
 
+    const dispatch = useDispatch()
+
     const onColorChange = (color, changeType) =>
     console.log('Color change: ', { color, changeType })
     const onStatusChange = (status) => console.log('Status change: ', status)
+
+    const AllCompletd = e => {
+        dispatch({ type: 'todos/allCompleted' })
+    }
 
     return (
         <footer className="footer">
         <div className="actions">
         <h5>Actions</h5>
-        <button className="button">全てCompletedに</button>
+        <button className="button" onClick={AllCompletd}>全てCompletedに</button>
         <button className="button">Completedをクリア</button>
         </div>
 
