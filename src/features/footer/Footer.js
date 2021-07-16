@@ -90,12 +90,16 @@ const Footer = () => {
         dispatch({ type: 'todos/allCompleted' })
     }
 
+    const AllCompletedClear = e => {
+        dispatch({ type: 'todos/completedCleared' })
+    }
+
     return (
         <footer className="footer">
         <div className="actions">
         <h5>Actions</h5>
         <button className="button" onClick={AllCompletd}>全てCompletedに</button>
-        <button className="button">Completedをクリア</button>
+        <button className="button" onClick={AllCompletedClear} >Completedのメモをクリア</button>
         </div>
 
         <RemainingTodos count={todosRemaining} />
