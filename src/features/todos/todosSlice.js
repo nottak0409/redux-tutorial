@@ -14,6 +14,9 @@ export async function fetchTodos(dispatch, getState) {
 
 export default function todosReducer(state = initialState, action) {
     switch (action.type) {
+        case 'todos/todosLoaded': {
+            return action.payload
+        }
         case 'todos/todoAdded': {
             // Can return just the new todos array - no extra object around it
             return [
