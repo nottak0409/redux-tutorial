@@ -58,3 +58,8 @@ export default function todosReducer(state = initialState, action) {
         return state
     }
 }
+
+export async function fetchTodos(dispatch, getState) {
+    const response - await client.get('/fakeApi/todos')
+    dispatch({ type: 'todos/todoLoaded', payload: response.todos })
+}
