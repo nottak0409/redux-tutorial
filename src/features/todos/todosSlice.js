@@ -9,7 +9,12 @@ function nextTodoId(todos) {
 
 export async function fetchTodos(dispatch, getState) {
     const response = await client.get('/fakeApi/todos')
+    const stateBefore = getState();
+    console.log('todo before', stateBefore);
     dispatch({ type: 'todos/todosLoaded', payload: response.todos })
+
+    const stateAfter = getState()
+    console.log('todo after', stateAfter)
 }
 
 export default function todosReducer(state = initialState, action) {
