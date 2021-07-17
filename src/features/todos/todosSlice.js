@@ -1,8 +1,15 @@
+import { client } from '../../api/client'
+
 const initialState = []
 
 function nextTodoId(todos) {
     const maxId = todos.reduce((maxId, todo) => Math.max(todo.id, maxId), -1)
     return maxId + 1
+}
+
+export async function fetchTodos(dispatch, getState) {
+    const response = await client.get('/fakeApi/todos')
+    dispatch({ type: 'todos/todosLoaded', payload: response.todos })
 }
 
 export default function todosReducer(state = initialState, action) {
@@ -57,9 +64,4 @@ export default function todosReducer(state = initialState, action) {
         default:
         return state
     }
-}
-
-export async function fetchTodos(dispatch, getState) {
-    const response - await client.get('/fakeApi/todos')
-    dispatch({ type: 'todos/todoLoaded', payload: response.todos })
 }
