@@ -56,18 +56,29 @@ export default function todosReducer(state = initialState, action) {
     }
 }
 
+export const todosLoaded = todos => {
+    return {
+        type: 'todos/todoLoaded',
+        payload: todos
+    }
+}
+
 export async function fetchTodos(dispatch, getState) {
     const response = await client.get('/fakeApi/todos')
-    const stateBefore = getState();
-    dispatch({ type: 'todos/todosLoaded', payload: response.todos })
+    dispatch(todosLoaded(response.todos))
+}
 
-    const stateAfter = getState()
+export const todoAdded = todo => {
+    return {
+        type: 'todos/todoAdded',
+        payload: todo
+    }
 }
 
 export function saveNewTodo(text) {
     return async function saveNewTodoThunk(dispatch, getState) {
         const initialTodo = { text }
         const response = await client.post('/fakeApi/todos', { todo: initialTodo })
-        dispatch({ type: 'todos/todoAdded', payload: response.todo })
+        dispatch(todoAdded(response.todo))
     }
 }
