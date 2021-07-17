@@ -17,6 +17,14 @@ export async function fetchTodos(dispatch, getState) {
     console.log('todo after', stateAfter)
 }
 
+export function saveNewTodo(text) {
+    return async function saveNewTodoThunk(dispatch, getState) {
+        const initialTodo = { text }
+        const response = await client.post('/fakeApi/todos', { todo: initialTodo })
+        dispatch({ type: 'todo/todoAdded', payload: response.todo })
+    }
+}
+
 export default function todosReducer(state = initialState, action) {
     switch (action.type) {
         case 'todos/todosLoaded': {
