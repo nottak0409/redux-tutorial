@@ -20,11 +20,57 @@ const todosSlice = createSlice({
             const todoId = action.payload
             const todo = state.entities[todoId]
             todo.completed = !todo.completed
+        },
+        todoColorSelected: {
+            reducer(state, action) {
+                const { color, todoId } = action.payload
+                state.entities[todoId].color = color
+            },
+            prepare(todoId, color) {
+                return {
+                    payload: { todoId, color }
+                }
+            }
+        },
+        todoDeleted(state, action) {
+            delete state.entities[action.payload]
+        },
+        allTodosCompleted(state, action) {
+            Object.value(state.entities).forEach((todo) => {
+                todo.completed = true
+            })
+        },
+        completedTodosCleared(state, action) {
+            Object.value(state.entities).foreach((todo) => {
+                if(todo.completed) {
+                    delete state.entities[todo.id]
+                }
+            })
+        },
+        todosLoading(state, action) {
+            state.status = 'loading'
+        },
+        todosLoaded(state, action) {
+            const newEntities = {}
+            action.payload.forEach((todo) => {
+                newEntities[todo.id] = todo
+            })
+            state.entities = newEntities
+            state.status = 'idle'
         }
     }
 })
 
-export const { todoAdded, todoToggled } = todosSlice.actions
+export const {
+    todoAdded,
+    todoToggled,
+    todoColorSelected,
+    todoDeleted,
+    allTodosCompleted,
+    completedTodosCleared,
+    todosLoading,
+    todosLoaded
+} = todosSlice.actions
 
 export default todosSlice.reducer
 
@@ -130,26 +176,26 @@ export default todosSlice.reducer
 //    payload: todoId,
 //})
 
-export const todoColorSelected = (todoId, color) => ({
-    type: 'todos/colorSelected',
-    payload: { todoId, color },
-})
-
-export const todoDeleted = (todoId) => ({
-    type: 'todos/todoDeleted',
-    payload: todoId,
-})
-
-export const allTodosCompleted = () => ({ type: 'todos/allCompleted' })
-
-export const completedTodosCleared = () => ({ type: 'todos/completedCleared' })
-
-export const todosLoading = () => ({ type: 'todos/todosLoading' })
-
-export const todosLoaded = (todos) => ({
-    type: 'todos/todosLoaded',
-    payload: todos,
-})
+//export const todoColorSelected = (todoId, color) => ({
+//    type: 'todos/colorSelected',
+//    payload: { todoId, color },
+//})
+//
+//export const todoDeleted = (todoId) => ({
+//    type: 'todos/todoDeleted',
+//    payload: todoId,
+//})
+//
+//export const allTodosCompleted = () => ({ type: 'todos/allCompleted' })
+//
+//export const completedTodosCleared = () => ({ type: 'todos/completedCleared' })
+//
+//export const todosLoading = () => ({ type: 'todos/todosLoading' })
+//
+//export const todosLoaded = (todos) => ({
+//    type: 'todos/todosLoaded',
+//    payload: todos,
+//})
 
 // Thunk function
 export const fetchTodos = () => async (dispatch) => {
