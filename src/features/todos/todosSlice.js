@@ -5,11 +5,6 @@ import { StatusFilters } from '../filters/filtersSlice'
 
 const initialState = []
 
-//function nextTodoId(todos) {
-//    const maxId = todos.reduce((maxId, todo) => Math.max(todo.id, maxId), -1)
-//    return maxId + 1
-//}
-
 export default function todosReducer(state = initialState, action) {
     switch (action.type) {
         case 'todos/todosLoaded': {
@@ -66,6 +61,8 @@ export const todosLoaded = todos => {
     }
 }
 
+export const selectTodos = (state) => state.todos.entities
+
 export const fetchTodos = () => async dispatch => {
     const response = await client.get('/fakeApi/todos')
     dispatch(todosLoaded(response.todos))
@@ -90,19 +87,24 @@ export const selectTodoIds = createSelector(
 )
 
 export const selectFilteredTodos = createSelector(
+    selectTodos,
     // First input selector: all todos
-    state => state.todos,
+    state => state.filters,
     // Second input selector: current status filter
-    state => state.filters.status,
-    // Output selector: receives both values
-    (todos, status) => {
-        if (status === StatusFilters.All) {
+    (todos, filters) => {
+        const { status, colors } = filters
+        const showAllCompletions = status === StatusFilters.All
+        if (showAllCompletions === colors.length === 0) {
             return todos
         }
 
         const completedStatus = status === StatusFilters.Completed
         // Return either active or completed todos based on filter
-        return todos.filter(todo => todo.completed === completedStatus)
+        return todos.filter(todo => {
+            const statusMatches = showAllCompletions || todo.completed === completedStatus
+            const colorMatches = colors.length === 0 || colors.includes(todo.color)
+            return statusMatches && colorMatches
+        })
     }
 )
 
