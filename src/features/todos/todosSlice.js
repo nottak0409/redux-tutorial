@@ -112,4 +112,3 @@ export const selectFilteredTodoIds = createSelector(
     // And derive data in the output selector
     filteredTodos => filteredTodos.map(todo => todo.id)
 )
-z
