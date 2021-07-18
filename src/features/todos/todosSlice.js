@@ -61,7 +61,11 @@ export const todosLoaded = todos => {
     }
 }
 
-export const selectTodos = (state) => state.todos.entities
+export const selectTodos = state => state.todos
+
+export const selectTodoById = (state, todoId) => {
+  return selectTodos(state).find(todo => todo.id === todoId)
+}
 
 export const fetchTodos = () => async dispatch => {
     const response = await client.get('/fakeApi/todos')
