@@ -6,35 +6,26 @@ export const StatusFilters = {
 
 const initialState = {
     status: StatusFilters.All,
-    colors: []
-}
-
-export const colorFilterChanged = (color, changeType) => {
-  return {
-    type: 'filters/colorFilterChanged',
-    payload: { color, changeType }
-  }
+    colors: [],
 }
 
 export default function filtersReducer(state = initialState, action) {
-    // The reducer normally looks at the action type field to decide what happens
     switch (action.type) {
         case 'filters/statusFilterChanged': {
             return {
+                // Again, one less level of nesting to copy
                 ...state,
-                //statusフィルターを変更する
-                filters: {
-                    ...state.filters,
-                    status: action.payload
-                }
+                status: action.payload,
             }
         }
         case 'filters/colorFilterChanged': {
             let { color, changeType } = action.payload
             const { colors } = state
-            switch ( changeType ) {
+
+            switch (changeType) {
                 case 'added': {
                     if (colors.includes(color)) {
+                        // This color already is set as a filter. Don't change the state.
                         return state
                     }
 
@@ -52,13 +43,22 @@ export default function filtersReducer(state = initialState, action) {
                     }
                 }
                 default:
-                    return state
+                return state
             }
         }
-        // Do something here based on the different types of actions
         default:
-        // If this reducer doesn't recognize the action type, or doesn't
-        // care about this specific action, return the existing state unchanged
         return state
+    }
+}
+
+export const statusFilterChanged = (status) => ({
+    type: 'filters/statusFilterChanged',
+    payload: status,
+})
+
+export const colorFilterChanged = (color, changeType) => {
+    return {
+        type: 'filters/colorFilterChanged',
+        payload: { color, changeType },
     }
 }
