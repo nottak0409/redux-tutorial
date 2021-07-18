@@ -105,3 +105,11 @@ export const selectFilteredTodos = createSelector(
         return todos.filter(todo => todo.completed === completedStatus)
     }
 )
+
+export const selectFilteredTodoIds = createSelector(
+    // Pass our other memoized selector as an input
+    selectFilteredTodos,
+    // And derive data in the output selector
+    filteredTodos => filteredTodos.map(todo => todo.id)
+)
+z
