@@ -50,6 +50,7 @@ const filtersSlice = createSlice({
 export const { colorFilterChanged, statusFilterChanged } = filtersSlice.actions
 
 export default filtersSlice.reducer
+//コメントアウトしている部分はtoolkitを使わない場合の書き方
 //export default function filtersReducer(state = initialState, action) {
 //    switch (action.type) {
 //        case 'filters/statusFilterChanged': {
