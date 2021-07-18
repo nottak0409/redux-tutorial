@@ -1,8 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import TodoListItem from './TodoListItem'
-
-const selectTodoIds = state => state.todos.map(todo => todo.id)
+import { selectTodoIds } from './todosSlice'
 
 const TodoList = () => {
   const todoIds = useSelector(selectTodoIds)
